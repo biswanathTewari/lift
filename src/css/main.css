@@ -1,0 +1,43 @@
+/* reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-family: "Poppins", sans-serif;
+  /* font-size: 62.5%; */
+}
+
+body {
+  color: #1b1b1b;
+  background-color: #fff;
+}
+
+*::-webkit-scrollbar {
+  width: 0.2rem;
+}
+*::-webkit-scrollbar-track {
+  background: rgba(155, 155, 155, 0.7);
+}
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 155, 0.7);
+  border-radius: 1.25rem;
+  border: transparent;
+}
+
+/* input fields */
+
+.inputs {
+  width: 20rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin: 1rem auto;
+}
+
+.inputs input {
+  margin-bottom: 1rem;
+}
+
+.inputs button {
+  font-size: 1rem;
+}
