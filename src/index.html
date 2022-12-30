@@ -23,7 +23,7 @@
         <span class="navbar-brand mb-0 fs-2">Lift</span>
       </div>
     </nav>
-    <main class="d-flex justify-content-center">
+    <main class="d-flex align-items-center flex-column">
       <aside>
         <form
           action="submit"
@@ -50,7 +50,29 @@
         </form>
       </aside>
 
-      <article></article>
+      <article class="simulation">
+        <div class="floors">
+          <div class="floor position-relative" id="floor-1">
+            <button class="floor__btn floor__btn--up" id="btn--up 1">
+              <i class="fas fa-sort-up"></i>
+            </button>
+            <button class="floor__btn floor__btn--down" id="btn--down 1">
+              <i class="fas fa-sort-down"></i>
+            </button>
+            <p
+              class="floor__number position-absolute bottom-0 left-0 fst-italic"
+            >
+              floor 01
+            </p>
+          </div>
+        </div>
+        <div class="lifts">
+          <div class="lift" id="lift-1">
+            <div class="lift__door lift__door--left"></div>
+            <div class="lift__door lift__door--right"></div>
+          </div>
+        </div>
+      </article>
     </main>
 
     <script src="./js/main.js"></script>
