@@ -55,6 +55,7 @@ main {
   flex-direction: column;
   justify-content: flex-end;
   width: 80%;
+  margin-bottom: 1rem;
   position: relative;
 }
 
