@@ -88,6 +88,10 @@ main {
   background-color: red;
 }
 
+i {
+  pointer-events: none;
+}
+
 /* lifts */
 
 .lift {

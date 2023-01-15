@@ -39,7 +39,9 @@ const createLifts = (noOfLifts) => {
   for (let i = 1; i <= noOfLifts; i++) {
     const n = noOfLifts - i + 1;
     html += `
-          <div class="lift" id="lift-${n}" style="left: ${7 * n}rem" >
+          <div class="lift" id="lift-${n}" floor="1" isBusy="false" style="left: ${
+      7 * n
+    }rem" >
             <div class="lift__door lift__door--left"></div>
             <div class="lift__door lift__door--right"></div>
           </div>
@@ -68,6 +70,51 @@ const createSimulationUI = (floors, lifts) => {
   document.getElementById(`btn--up-${floors}`).style.display = "none";
 };
 
+const getNearestLift = (targetFloor, direction) => {
+  const lifts = [...document.querySelectorAll(".lift")];
+
+  const sameFloorLift = lifts.find(
+    (lift) =>
+      lift.getAttribute("isBusy") === "false" &&
+      lift.getAttribute("floor") === targetFloor
+  );
+  if (sameFloorLift) return { lift: sameFloorLift, isOnSameFloor: true };
+
+  //& get the non busy lifts along with their distance from the target floor
+  const comparisonList = lifts.map((lift) => {
+    if (lift.getAttribute("isBusy") === "false")
+      return {
+        distance: Math.abs(lift.getAttribute("floor") - targetFloor),
+        lift,
+      };
+  });
+
+  const nearestLift = comparisonList.reduce((acc, curr) => {
+    if (curr.distance < acc.distance) return curr;
+    return acc;
+  });
+
+  return { lift: nearestLift ? nearestLift.lift : null, isOnSameFloor: false };
+};
+
+const liftRequestHandler = (e) => {
+  if (!e.target.classList.contains("floor__btn")) return;
+
+  const floor = e.target.id.split("-")[3];
+  const direction = e.target.classList.contains("floor__btn--up")
+    ? "up"
+    : "down";
+
+  // get nearest lift
+  const { lift, isOnSameFloor } = getNearestLift(floor, direction);
+  //console.log(lift, isOnSameFloor);
+
+  // move lift
+  if (lift) {
+    //moveLift(lift, floor);
+  }
+};
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const floors = noOfFloors.value;
@@ -76,3 +123,5 @@ form.addEventListener("submit", (e) => {
   createSimulationUI(floors, lifts);
   window.scrollTo(0, document.body.scrollHeight);
 });
+
+simulation.addEventListener("click", liftRequestHandler);
