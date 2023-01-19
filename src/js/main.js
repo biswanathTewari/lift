@@ -81,12 +81,13 @@ const getNearestLift = (targetFloor, direction) => {
   if (sameFloorLift) return { lift: sameFloorLift, isOnSameFloor: true };
 
   //& get the non busy lifts along with their distance from the target floor
-  const comparisonList = lifts.map((lift) => {
+  let comparisonList = [];
+  lifts.forEach((lift) => {
     if (lift.getAttribute("isBusy") === "false")
-      return {
+      comparisonList.push({
         distance: Math.abs(lift.getAttribute("floor") - targetFloor),
         lift,
-      };
+      });
   });
 
   const nearestLift = comparisonList.reverse().reduce((acc, curr) => {
