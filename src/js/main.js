@@ -89,12 +89,35 @@ const getNearestLift = (targetFloor, direction) => {
       };
   });
 
-  const nearestLift = comparisonList.reduce((acc, curr) => {
+  const nearestLift = comparisonList.reverse().reduce((acc, curr) => {
     if (curr.distance < acc.distance) return curr;
     return acc;
   });
 
   return { lift: nearestLift ? nearestLift.lift : null, isOnSameFloor: false };
+};
+
+const moveLift = (lift, targetFloor, isOnSameFloor) => {
+  lift.setAttribute("isBusy", "true");
+
+  const currentFloor = lift.getAttribute("floor");
+  const distance = parseInt(targetFloor) - parseInt(currentFloor);
+  const absDistance = Math.abs(distance);
+  const heightOfFloor = 11; //rem
+
+  if (!isOnSameFloor) {
+    const distanceInRems =
+      (parseInt(currentFloor) - 1 + distance) * heightOfFloor;
+    lift.style.transition = `transform ${absDistance * 2}s linear`;
+    lift.style.transform = `translateY(-${distanceInRems}rem)`;
+  }
+
+  setTimeout(() => {
+    lift.classList.remove("busy");
+    lift.setAttribute("isBusy", "false");
+    lift.setAttribute("floor", targetFloor);
+    //TODO: open and close doors
+  }, absDistance * 2 * 1000);
 };
 
 const liftRequestHandler = (e) => {
@@ -111,7 +134,10 @@ const liftRequestHandler = (e) => {
 
   // move lift
   if (lift) {
-    //moveLift(lift, floor);
+    moveLift(lift, floor, isOnSameFloor);
+  } else {
+    alert("No lift available");
+    //TODO: queue request
   }
 };
 
