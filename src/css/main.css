@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Unbounded&display=swap");
+
 /* reset CSS */
 * {
   margin: 0;
@@ -10,7 +13,15 @@
 
 body {
   color: #1b1b1b;
-  background-color: #fff;
+  background-image: linear-gradient(
+    to right top,
+    #051937,
+    #004d7a,
+    #008793,
+    #00bf72,
+    #a8eb12
+  );
+  font-family: "Poppins", sans-serif;
 }
 
 *::-webkit-scrollbar {
@@ -27,6 +38,11 @@ body {
 
 main {
   min-height: 90vh;
+}
+
+.navbar-brand {
+  font-family: "Unbounded", cursive;
+  color: whitesmoke;
 }
 
 /* input fields */
@@ -54,7 +70,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  width: 80%;
+  width: 90%;
   margin-bottom: 1rem;
   position: relative;
 }
@@ -64,14 +80,18 @@ main {
   height: 10rem;
   margin-top: 1rem;
   border: 0 solid black;
-  border-bottom: 0.2rem solid black;
+  border-bottom: 0.1rem solid gainsboro;
+}
+
+.floor__number {
+  color: whitesmoke;
 }
 
 .floor__btn {
   height: 2.25rem;
   width: 2.25rem;
   border-radius: 50%;
-  border: 0.02rem solid black;
+  border: 0rem solid black;
   background-color: #fff;
   display: flex;
   justify-content: center;
@@ -81,11 +101,11 @@ main {
 }
 
 .floor__btn--up {
-  background-color: green;
+  background-color: #d9f99c;
 }
 
 .floor__btn--down {
-  background-color: red;
+  background-color: lightpink;
 }
 
 i {
@@ -97,8 +117,7 @@ i {
 .lift {
   width: 5rem;
   height: 7.5rem;
-  border: 0.2rem solid black;
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -107,6 +126,9 @@ i {
   bottom: 0;
   left: 7rem;
   overflow: hidden;
+  background-image: url("../assets/lucifer.jpeg");
+  background-size: cover;
+  background-position: center;
 }
 
 .lift__door {
@@ -117,9 +139,25 @@ i {
 }
 
 .lift__door--left {
-  border-right: 0.15rem solid black;
+  border-right: 0.15rem solid gray;
+  background-image: linear-gradient(
+    to right,
+    #c0c0c0,
+    #c7c7c7,
+    #cecece,
+    #d5d5d5,
+    #dcdcdc
+  );
 }
 
 .lift__door--right {
-  border-left: 0.15rem solid black;
+  border-left: 0.15rem solid gray;
+  background-image: linear-gradient(
+    to left,
+    #c0c0c0,
+    #c7c7c7,
+    #cecece,
+    #d5d5d5,
+    #dcdcdc
+  );
 }
