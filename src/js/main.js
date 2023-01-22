@@ -2,6 +2,7 @@ const noOfFloors = document.getElementById("floorsInput");
 const noOfLifts = document.getElementById("liftsInput");
 const form = document.getElementById("form");
 const simulation = document.querySelector(".simulation");
+const queueRequest = [];
 
 const createFloors = (noOfFloors) => {
   const floors = document.createElement("div");
@@ -70,7 +71,7 @@ const createSimulationUI = (floors, lifts) => {
   document.getElementById(`btn--up-${floors}`).style.display = "none";
 };
 
-const getNearestLift = (targetFloor, direction) => {
+const getNearestLift = (targetFloor, _direction) => {
   const lifts = [...document.querySelectorAll(".lift")];
 
   const sameFloorLift = lifts.find(
@@ -89,6 +90,8 @@ const getNearestLift = (targetFloor, direction) => {
         lift,
       });
   });
+
+  if (comparisonList.length === 0) return { lift: null, isOnSameFloor: false };
 
   const nearestLift = comparisonList.reverse().reduce((acc, curr) => {
     if (curr.distance < acc.distance) return curr;
@@ -113,12 +116,41 @@ const moveLift = (lift, targetFloor, isOnSameFloor) => {
     lift.style.transform = `translateY(-${distanceInRems}rem)`;
   }
 
+  const openDoorsAfter = absDistance * 2 * 1000;
+  const closeDoorsAfter = openDoorsAfter + 2500;
+  const releaseLiftAfter = closeDoorsAfter + 2500;
+
+  const leftDoor = lift.querySelector(".lift__door--left");
+  const rightDoor = lift.querySelector(".lift__door--right");
+
+  // open doors animation
   setTimeout(() => {
-    lift.classList.remove("busy");
+    leftDoor.style.transform = "translateX(-2.5rem)";
+    rightDoor.style.transform = "translateX(2.5rem)";
+  }, openDoorsAfter);
+
+  // close doors animation
+  setTimeout(() => {
+    leftDoor.style.transform = "translateX(0)";
+    rightDoor.style.transform = "translateX(0)";
+  }, closeDoorsAfter);
+
+  // release lift
+  setTimeout(() => {
     lift.setAttribute("isBusy", "false");
     lift.setAttribute("floor", targetFloor);
-    //TODO: open and close doors
-  }, absDistance * 2 * 1000);
+    executePendingRequests();
+  }, releaseLiftAfter);
+};
+
+const executePendingRequests = () => {
+  if (queueRequest.length === 0) return;
+  const { floor, direction } = queueRequest.shift();
+
+  const { lift, isOnSameFloor } = getNearestLift(floor, direction);
+  if (lift) {
+    moveLift(lift, floor, isOnSameFloor);
+  }
 };
 
 const liftRequestHandler = (e) => {
@@ -137,8 +169,7 @@ const liftRequestHandler = (e) => {
   if (lift) {
     moveLift(lift, floor, isOnSameFloor);
   } else {
-    alert("No lift available");
-    //TODO: queue request
+    queueRequest.push({ floor, direction });
   }
 };
 
