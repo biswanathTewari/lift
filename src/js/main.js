@@ -178,6 +178,7 @@ form.addEventListener("submit", (e) => {
   const floors = noOfFloors.value;
   const lifts = noOfLifts.value;
   if (!floors || !lifts) return alert("Please enter a valid number");
+  if (lifts > 10) return alert("Max 10 lifts allowed");
   createSimulationUI(floors, lifts);
   window.scrollTo(0, document.body.scrollHeight);
 });
